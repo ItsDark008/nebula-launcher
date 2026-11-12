@@ -22,7 +22,7 @@ progress:
 Phase: 1 of 16 (Linux Bootstrap and Minecraft Access Feasibility)  
 Plan: 0 of TBD in current phase  
 Status: Ready to plan.  
-Last activity: 2026-11-12 — Project owner approved the roadmap and architecture.
+Last activity: 2026-11-12 — Captured Phase 1 context. Microsoft Entra registration starts from scratch.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -42,8 +42,7 @@ Progress: [░░░░░░░░░░] 0%
 
 ### Pending Todos
 
-- Discuss and plan Phase 1, which covers the desktop bootstrap and protected access feasibility.
-- Review the pull request for the approved planning baseline.
+- Plan Phase 1 from the recorded context, including the registration and API review checklist for the project owner.
 
 ### Blockers/Concerns
 
@@ -57,5 +56,6 @@ Managed Java provisioning, Windows support, and an optional light theme are cand
 ## Session Continuity
 
 Last session: 2026-11-12  
-Stopped at: Roadmap and architecture approved. Phase 1 is ready for planning.  
-Resume file: None.
+Stopped at: Phase 1 context gathered.
+
+Resume file: .planning/phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-CONTEXT.md
