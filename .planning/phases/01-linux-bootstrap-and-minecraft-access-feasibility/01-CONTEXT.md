@@ -16,9 +16,9 @@ Run the development desktop shell on CachyOS x86_64, verify typed status command
 
 ### Microsoft app registration
 
-- **D-01** · Start with a new Microsoft Entra application registration. The project owner will create and own the registration and submit the Minecraft API access request from their account.
-- **D-02** · Phase 1 will prepare an owner-facing checklist for registration and API review. Verify the current provider instructions, required inputs, and access prerequisites before documenting them. Record the status as awaiting owner registration until there is evidence of a registration. Track registration, review submission, approval, and live access separately.
-- **D-03** · The Linux bootstrap and fixture-based checks can proceed while registration and review are pending. Keep live authentication acceptance in Phase 6 and authenticated launch acceptance in Phase 7.
+- **D-01:** Start with a new Microsoft Entra application registration. The project owner will create and own the registration and submit the Minecraft API access request from their account.
+- **D-02:** Phase 1 will prepare an owner-facing checklist for registration and API review. Verify the current provider instructions, required inputs, and access prerequisites before documenting them. Record the status as awaiting owner registration until there is evidence of a registration. Track registration, review submission, approval, and live access separately.
+- **D-03:** The Linux bootstrap and fixture-based checks can proceed while registration and review are pending. Keep live authentication acceptance in Phase 6 and authenticated launch acceptance in Phase 7.
 
 ### Implementation discretion
 

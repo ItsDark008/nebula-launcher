@@ -50,8 +50,16 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 2. A desktop status request returns a typed result, emits a status event, and shows a sanitized error when the request fails. The WebView can reach only the required commands and events.
 3. The owner can see who owns the proposed registration, the verified public-client and review steps, which prerequisites remain open, and whether protected access is blocked.
 
-**Plans**: TBD
+**Plans**: 0/3 plans executed
 **UI hint**: yes
+
+Plans:
+**Wave 1**
+- [ ] 01-01: Pin development tools and build the standalone status core.
+- [ ] 01-02: Verify the Minecraft API access path and prepare the owner checklist.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 01-03: Connect the real desktop window to Rust and verify status, events, and recovery.
 
 **Implementation tasks**
 
@@ -453,7 +461,7 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Linux Bootstrap and Minecraft Access Feasibility | 0/TBD | Not started | - |
+| 1. Linux Bootstrap and Minecraft Access Feasibility | 0/3 | Planned     | - |
 | 2. Dark Interface and Navigation | 0/TBD | Not started | - |
 | 3. Persistent Instances | 0/TBD | Not started | - |
 | 4. Minecraft Manifest and Verified Downloads | 0/TBD | Not started | - |
