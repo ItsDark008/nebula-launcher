@@ -1,0 +1,6 @@
+{
+  "identifier": "main-status",
+  "description": "Read launcher status and subscribe to local window events",
+  "windows": ["main"],
+  "permissions": ["allow-get-launcher-status", "core:event:allow-listen", "core:event:allow-unlisten"]
+}

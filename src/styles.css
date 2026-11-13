@@ -1,0 +1,50 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  color: #f0edf8;
+  background: #151321;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  box-sizing: border-box;
+  max-width: 42rem;
+  padding: clamp(1.25rem, 6vw, 3rem);
+  margin: 0 auto;
+}
+
+h1 {
+  line-height: 1.2;
+}
+
+p {
+  color: #d5cde5;
+  line-height: 1.55;
+}
+
+[role="alert"] {
+  color: #ffbdc7;
+}
+
+button {
+  min-height: 2.75rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid #a58cc9;
+  border-radius: 0.4rem;
+  background: #352753;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+button[aria-disabled="true"] {
+  cursor: wait;
+}
+
+button:focus-visible {
+  outline: 3px solid #dbc1ff;
+  outline-offset: 3px;
+}

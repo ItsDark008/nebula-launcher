@@ -10,7 +10,7 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 
 ### Milestone A · Vanilla MVP
 
-- [ ] **Phase 1: Linux Bootstrap and Minecraft Access Feasibility** - Run the desktop shell and establish the protected API access path.
+- [x] **Phase 1: Linux Bootstrap and Minecraft Access Feasibility** - Run the desktop shell and establish the protected API access path. (completed 2026-11-13)
 - [ ] **Phase 2: Dark Interface and Navigation** - Navigate the desktop workspace with a mouse or keyboard.
 - [ ] **Phase 3: Persistent Instances** - Create, edit, duplicate, and safely delete isolated instances.
 - [ ] **Phase 4: Minecraft Manifest and Verified Downloads** - Browse official versions and follow verified transfers.
@@ -40,7 +40,7 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 
 ### Phase 1: Linux Bootstrap and Minecraft Access Feasibility
 
-**Goal**: The owner can run the desktop shell on CachyOS, exercise its typed connection to Rust, and see the current Minecraft access status.
+**Goal**: As a project owner, I want to run the desktop shell on CachyOS and exercise its typed connection to Rust, so that I can see the current Minecraft access status.
 **Mode:** mvp
 **Depends on**: Roadmap and architecture approval, recorded on 2026-11-12.
 **Requirements**: BASE-01, BASE-02, BASE-03
@@ -50,16 +50,16 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 2. A desktop status request returns a typed result, emits a status event, and shows a sanitized error when the request fails. The WebView can reach only the required commands and events.
 3. The owner can see who owns the proposed registration, the verified public-client and review steps, which prerequisites remain open, and whether protected access is blocked.
 
-**Plans**: 0/3 plans executed
+**Plans**: 3/3 plans complete
 **UI hint**: yes
 
 Plans:
 **Wave 1**
-- [ ] 01-01: Pin development tools and build the standalone status core.
-- [ ] 01-02: Verify the Minecraft API access path and prepare the owner checklist.
+- [x] 01-01: Pin development tools and build the standalone status core.
+- [x] 01-02: Verify the Minecraft API access path and prepare the owner checklist.
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 01-03: Connect the real desktop window to Rust and verify status, events, and recovery.
+- [x] 01-03: Connect the real desktop window to Rust and verify status, events, and recovery.
 
 **Implementation tasks**
 
@@ -461,7 +461,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Linux Bootstrap and Minecraft Access Feasibility | 0/3 | Planned     | - |
+| 1. Linux Bootstrap and Minecraft Access Feasibility | 3/3 | Complete    | 2026-11-13 |
 | 2. Dark Interface and Navigation | 0/TBD | Not started | - |
 | 3. Persistent Instances | 0/TBD | Not started | - |
 | 4. Minecraft Manifest and Verified Downloads | 0/TBD | Not started | - |

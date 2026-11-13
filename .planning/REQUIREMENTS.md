@@ -9,9 +9,9 @@ The first complete Linux release spans milestones A through D. Milestone A deliv
 
 ### Desktop foundation
 
-- [ ] **BASE-01**: Run the development desktop shell on CachyOS with a Rust core that can be tested without Tauri.
-- [ ] **BASE-02**: Expose typed commands, status events, and sanitized errors through narrowly scoped Tauri capabilities.
-- [ ] **BASE-03**: Document and verify the application registration and review path for a Nebula-owned Microsoft client ID, with an explicit blocked state when access is unavailable.
+- [x] **BASE-01**: Run the development desktop shell on CachyOS with a Rust core that can be tested without Tauri.
+- [x] **BASE-02**: Expose typed commands, status events, and sanitized errors through narrowly scoped Tauri capabilities.
+- [x] **BASE-03**: Document and verify the application registration and review path for a Nebula-owned Microsoft client ID, with an explicit blocked state when access is unavailable.
 
 ### Interface
 
@@ -112,9 +112,9 @@ The first complete Linux release spans milestones A through D. Milestone A deliv
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BASE-01 | Phase 1 | Pending |
-| BASE-02 | Phase 1 | Pending |
-| BASE-03 | Phase 1 | Pending |
+| BASE-01 | Phase 1 | Complete |
+| BASE-02 | Phase 1 | Complete |
+| BASE-03 | Phase 1 | Complete |
 | UI-01 | Phase 2 | Pending |
 | UI-02 | Phase 2 | Pending |
 | INST-01 | Phase 3 | Pending |
