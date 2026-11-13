@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nebula Launcher",
+  "version": "0.1.0",
+  "identifier": "io.github.itsdark008.nebula-launcher",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://127.0.0.1:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      { "label": "main", "title": "Nebula Launcher", "width": 760, "height": 530, "minWidth": 340, "minHeight": 370, "dragDropEnabled": false }
+    ],
+    "security": {
+      "capabilities": ["main-status"],
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' ipc: http://ipc.localhost",
+      "devCsp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' ipc: http://ipc.localhost ws://127.0.0.1:1420"
+    }
+  },
+  "bundle": { "active": false, "icon": ["icons/icon.png"] }
+}

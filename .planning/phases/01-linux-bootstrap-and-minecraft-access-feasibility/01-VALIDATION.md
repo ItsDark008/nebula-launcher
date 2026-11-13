@@ -1,9 +1,9 @@
 ---
 phase: "01"
 slug: linux-bootstrap-and-minecraft-access-feasibility
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-12"
 ---
 
@@ -28,12 +28,12 @@ Run all commands from the repository root. Confirm actual feedback time during e
 
 | Task | Requirements | Threats | Verification | Status |
 | --- | --- | --- | --- | --- |
-| 01-01-01 | BASE-01, BASE-03 | T-01-07 | Core tests and clean frontend build | Pending |
-| 01-03-01 | BASE-01, BASE-02, BASE-03 | T-01-01, T-01-03, T-01-08 | Adapter tests and real WebView command and event smoke | Pending |
-| 01-03-02 | BASE-02 | T-01-01, T-01-02, T-01-03 | Frontend and desktop adapter tests for error handling and the capability allowlist | Pending |
-| 01-03-03 | BASE-01, BASE-02 | T-01-02 | Full workspace checks and CachyOS desktop smoke | Pending |
-| 01-02-01 | BASE-03 | T-01-04, T-01-06 | Runbook structure check and manual review of provider sources | Pending |
-| 01-02-02 | BASE-03 | T-01-05, T-01-06 | Status ledger check and manual Secret Service probe | Pending |
+| 01-01-01 | BASE-01, BASE-03 | T-01-07 | Core tests and clean frontend build | Passed |
+| 01-03-01 | BASE-01, BASE-02, BASE-03 | T-01-01, T-01-03, T-01-08 | Adapter tests and real WebView command and event smoke | Passed |
+| 01-03-02 | BASE-02 | T-01-01, T-01-02, T-01-03 | Frontend and desktop adapter tests for error handling and the capability allowlist | Passed |
+| 01-03-03 | BASE-01, BASE-02 | T-01-02 | Full workspace checks and CachyOS desktop smoke | Passed |
+| 01-02-01 | BASE-03 | T-01-04, T-01-06 | Runbook structure check and manual review of provider sources | Passed |
+| 01-02-02 | BASE-03 | T-01-05, T-01-06 | Status ledger check and manual Secret Service probe | Passed |
 
 ## Test Prerequisites
 
@@ -49,4 +49,4 @@ The foundation plan creates the Rust workspace, frontend build, and initial test
 
 ## Validation Sign-Off
 
-Pending execution evidence.
+Validation passed on 2026-11-13. See the three plan summaries for the test, desktop, and provider evidence. The Secret Service check recorded a missing service in the current session.
