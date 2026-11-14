@@ -74,7 +74,7 @@ Plans:
 
 ### Phase 2: Dark Interface and Navigation
 
-**Goal**: Players can move through the desktop workspace using a consistent dark interface at supported window sizes.
+**Goal**: As a player, I want to move through the dark desktop workspace at supported window sizes, so that I can find and operate the launcher's primary controls.
 **Mode:** mvp
 **Depends on**: Phase 1.
 **Requirements**: UI-01, UI-02
