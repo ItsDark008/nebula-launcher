@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 import type { MinecraftAccessStatus, StatusClient } from "./status";
 import type { AccountClient } from "./accounts";
@@ -29,6 +30,34 @@ test("opens Dashboard and navigates to every destination", () => {
     expect(button.getAttribute("aria-current")).toBe("page");
     expect(screen.getByRole("heading", { name, level: 1 })).toBeTruthy();
   }
+});
+
+test("navigates all destinations with Tab and Enter", async () => {
+  const user = userEvent.setup();
+  render(<App accounts={accounts} client={{ read: async () => snapshot, subscribe: async () => () => {} }} />);
+  for (const name of ["Dashboard", "Instances", "Downloads", "Accounts", "Settings", "Diagnostics"]) {
+    await user.tab();
+    const destination = screen.getByRole("button", { name });
+    expect(document.activeElement).toBe(destination);
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("heading", { name, level: 1 })).toBeTruthy();
+    expect(destination.getAttribute("aria-current")).toBe("page");
+  }
+});
+
+test("retries a failed status read with the keyboard and retains focus", async () => {
+  const user = userEvent.setup();
+  const read = vi.fn<StatusClient["read"]>().mockRejectedValueOnce("fixture failure").mockResolvedValueOnce(snapshot);
+  render(<App accounts={accounts} client={{ read, subscribe: async () => () => {} }} />);
+  for (let i = 0; i < 4; i++) await user.tab();
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Accounts" }));
+  await user.keyboard("{Enter}");
+  await screen.findByRole("alert");
+  for (let i = 0; i < 4; i++) await user.tab();
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Retry" }));
+  await user.keyboard("{Enter}");
+  await screen.findByText("Protected access was verified with an eligible account.");
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Refresh status" }));
 });
 
 test("signs in and displays only the returned account identity", async () => {
