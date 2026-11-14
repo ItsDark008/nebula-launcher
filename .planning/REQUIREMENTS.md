@@ -15,8 +15,8 @@ The first complete Linux release spans milestones A through D. Milestone A deliv
 
 ### Interface
 
-- [ ] **UI-01**: Navigate the dashboard, instances, downloads, accounts, settings, and diagnostics through an original dark interface with reusable design tokens and components.
-- [ ] **UI-02**: Use primary controls by keyboard with visible focus, reduced-motion support, and usable layouts at supported window sizes.
+- [x] **UI-01**: Navigate the dashboard, instances, downloads, accounts, settings, and diagnostics through an original dark interface with reusable design tokens and components.
+- [x] **UI-02**: Use primary controls by keyboard with visible focus, reduced-motion support, and usable layouts at supported window sizes.
 
 ### Instances and persistence
 
@@ -115,8 +115,8 @@ The first complete Linux release spans milestones A through D. Milestone A deliv
 | BASE-01 | Phase 1 | Complete |
 | BASE-02 | Phase 1 | Complete |
 | BASE-03 | Phase 1 | Complete |
-| UI-01 | Phase 2 | Pending |
-| UI-02 | Phase 2 | Pending |
+| UI-01 | Phase 2 | Complete |
+| UI-02 | Phase 2 | Complete |
 | INST-01 | Phase 3 | Pending |
 | INST-02 | Phase 3 | Pending |
 | INST-03 | Phase 3 | Pending |
