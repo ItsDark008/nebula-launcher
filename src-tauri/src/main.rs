@@ -1,6 +1,122 @@
 use nebula_core::{MinecraftAccessStatus, minecraft_access_status};
 use serde::Serialize;
+use std::os::unix::fs::OpenOptionsExt;
+use std::sync::Mutex;
 use tauri::{Emitter, EventTarget, Runtime, WebviewWindow};
+
+static ACCOUNT_OPERATION: Mutex<()> = Mutex::new(());
+
+fn account_guard() -> Result<(std::sync::MutexGuard<'static, ()>, std::fs::File), &'static str> {
+    let guard = ACCOUNT_OPERATION
+        .lock()
+        .map_err(|_| "Accounts are unavailable.")?;
+    let runtime = std::env::var_os("XDG_RUNTIME_DIR").ok_or("Accounts are unavailable.")?;
+    let path = std::path::PathBuf::from(runtime).join("nebula-launcher-accounts.lock");
+    let file = std::fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .mode(0o600)
+        .open(path)
+        .map_err(|_| "Accounts are unavailable.")?;
+    fs2::FileExt::lock_exclusive(&file).map_err(|_| "Accounts are unavailable.")?;
+    Ok((guard, file))
+}
+
+fn client_id() -> Result<String, &'static str> {
+    std::env::var("NEBULA_MICROSOFT_CLIENT_ID").map_err(|_| "Microsoft sign-in is not configured.")
+}
+
+fn store_error(error: nebula_core::accounts::StoreError) -> &'static str {
+    match error {
+        nebula_core::accounts::StoreError::LockedOrDenied => {
+            "The system keyring is locked or access was denied."
+        }
+        nebula_core::accounts::StoreError::Unavailable => "The system keyring is unavailable.",
+        nebula_core::accounts::StoreError::InvalidData => "The stored account is unavailable.",
+        nebula_core::accounts::StoreError::RefreshFailed => {
+            "Unable to restore this session. Check your connection and retry."
+        }
+        nebula_core::accounts::StoreError::ReauthenticationRequired => {
+            "The session expired or was revoked. Sign in again."
+        }
+    }
+}
+
+#[tauri::command]
+async fn list_accounts() -> Result<nebula_core::accounts::AccountList, &'static str> {
+    tauri::async_runtime::spawn_blocking(|| {
+        let _guard = account_guard()?;
+        nebula_core::accounts::list().map_err(store_error)
+    })
+    .await
+    .map_err(|_| "Accounts are unavailable.")?
+}
+
+#[tauri::command]
+async fn sign_in_account() -> Result<nebula_core::minecraft_auth::MinecraftProfile, &'static str> {
+    tauri::async_runtime::spawn_blocking(|| {
+        let _guard = account_guard()?;
+        nebula_core::accounts::sign_in(&client_id()?, |url| {
+            std::process::Command::new("xdg-open")
+                .arg(url.as_str())
+                .stdin(std::process::Stdio::null())
+                .stdout(std::process::Stdio::null())
+                .stderr(std::process::Stdio::null())
+                .spawn()
+                .map(|_| ())
+                .map_err(|_| ())
+        })
+        .map_err(|error| match error {
+            nebula_core::accounts::SignInError::Keyring => {
+                "The system keyring is unavailable or locked."
+            }
+            nebula_core::accounts::SignInError::Browser => "Could not open the system browser.",
+            nebula_core::accounts::SignInError::Microsoft => {
+                "Microsoft sign-in failed or expired. Try again."
+            }
+            nebula_core::accounts::SignInError::Xbox => {
+                "Xbox sign-in failed. Check your Xbox account and try again."
+            }
+            nebula_core::accounts::SignInError::Minecraft => {
+                "Minecraft access or ownership could not be verified."
+            }
+        })
+    })
+    .await
+    .map_err(|_| "Sign-in is unavailable.")?
+}
+
+#[tauri::command]
+async fn select_account(id: String) -> Result<(), &'static str> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let _guard = account_guard()?;
+        nebula_core::accounts::select(&id).map_err(|_| "Unable to select this account.")
+    })
+    .await
+    .map_err(|_| "Accounts are unavailable.")?
+}
+
+#[tauri::command]
+async fn remove_account(id: String) -> Result<(), &'static str> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let _guard = account_guard()?;
+        nebula_core::accounts::remove(&id).map_err(|_| "Unable to remove this account.")
+    })
+    .await
+    .map_err(|_| "Accounts are unavailable.")?
+}
+
+#[tauri::command]
+async fn refresh_account() -> Result<nebula_core::minecraft_auth::MinecraftProfile, &'static str> {
+    tauri::async_runtime::spawn_blocking(|| {
+        let _guard = account_guard()?;
+        nebula_core::accounts::refresh_active(&client_id()?).map_err(store_error)
+    })
+    .await
+    .map_err(|_| "Accounts are unavailable.")?
+}
 
 const STATUS_EVENT: &str = "launcher-status-updated";
 
@@ -39,7 +155,14 @@ fn get_launcher_status<R: Runtime>(
 }
 
 fn builder<R: Runtime>(builder: tauri::Builder<R>) -> tauri::Builder<R> {
-    builder.invoke_handler(tauri::generate_handler![get_launcher_status])
+    builder.invoke_handler(tauri::generate_handler![
+        get_launcher_status,
+        list_accounts,
+        sign_in_account,
+        select_account,
+        remove_account,
+        refresh_account
+    ])
 }
 
 fn main() {
@@ -104,6 +227,11 @@ mod tests {
             capability["permissions"],
             json!([
                 "allow-get-launcher-status",
+                "allow-list-accounts",
+                "allow-sign-in-account",
+                "allow-select-account",
+                "allow-remove-account",
+                "allow-refresh-account",
                 "core:event:allow-listen",
                 "core:event:allow-unlisten"
             ])

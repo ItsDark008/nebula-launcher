@@ -2,5 +2,5 @@
   "identifier": "main-status",
   "description": "Read launcher status and subscribe to local window events",
   "windows": ["main"],
-  "permissions": ["allow-get-launcher-status", "core:event:allow-listen", "core:event:allow-unlisten"]
+  "permissions": ["allow-get-launcher-status", "allow-list-accounts", "allow-sign-in-account", "allow-select-account", "allow-remove-account", "allow-refresh-account", "core:event:allow-listen", "core:event:allow-unlisten"]
 }
