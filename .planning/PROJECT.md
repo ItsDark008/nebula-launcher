@@ -12,7 +12,7 @@ A Linux player with an eligible Minecraft account can install and launch Minecra
 
 ### Validated
 
-Validation starts with the first implementation phase.
+- Phase 1 verified the CachyOS development window, standalone Rust status core, typed Tauri command and event, and keyboard retry. The owner registration and Minecraft review checklist is available. [Phase 1 verification](phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-VERIFICATION.md)
 
 ### Active
 
