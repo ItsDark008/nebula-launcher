@@ -231,6 +231,7 @@ button:focus-visible {
 }
 .content-panel h2 { margin-top: 0; font-size: 20px; }
 .content-panel p { overflow-wrap: anywhere; }
+.account-manager button { margin: 0 8px 8px 0; }
 
 @media (max-width: 600px) {
   .workspace { flex-direction: column; }

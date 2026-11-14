@@ -5,7 +5,7 @@ export interface MinecraftAccessStatus {
   registration: "registered";
   reviewSubmission: "submitted";
   reviewApproval: "approved";
-  protectedAccess: "unverified";
+  protectedAccess: "verified";
 }
 
 export interface StatusClient {

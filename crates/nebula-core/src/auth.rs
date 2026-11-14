@@ -17,8 +17,10 @@ pub enum AuthorizationError {
     InvalidCallback,
     Expired,
     AlreadyUsed,
+    ProviderRejected,
     ListenerUnavailable,
     TokenExchangeFailed,
+    ReauthenticationRequired,
 }
 
 /// Provider credentials remain in Rust and deliberately do not implement
@@ -56,9 +58,7 @@ pub fn redeem_code(
         ])
         .send()
         .map_err(|_| AuthorizationError::TokenExchangeFailed)?;
-    if !response.status().is_success() {
-        return Err(AuthorizationError::TokenExchangeFailed);
-    }
+    let status = response.status();
     let mut body = Vec::new();
     response
         .by_ref()
@@ -66,6 +66,9 @@ pub fn redeem_code(
         .read_to_end(&mut body)
         .map_err(|_| AuthorizationError::TokenExchangeFailed)?;
     if body.len() > 65536 {
+        return Err(AuthorizationError::TokenExchangeFailed);
+    }
+    if !status.is_success() {
         return Err(AuthorizationError::TokenExchangeFailed);
     }
     parse_microsoft_tokens(&body)
@@ -78,6 +81,53 @@ fn parse_microsoft_tokens(body: &[u8]) -> Result<MicrosoftTokens, AuthorizationE
         return Err(AuthorizationError::TokenExchangeFailed);
     }
     Ok(tokens)
+}
+
+pub(crate) fn refresh_tokens(
+    client_id: &str,
+    refresh_token: &str,
+) -> Result<MicrosoftTokens, AuthorizationError> {
+    let client = reqwest::blocking::Client::builder()
+        .https_only(true)
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(Duration::from_secs(15))
+        .build()
+        .map_err(|_| AuthorizationError::TokenExchangeFailed)?;
+    let mut response = client
+        .post("https://login.microsoftonline.com/consumers/oauth2/v2.0/token")
+        .form(&[
+            ("client_id", client_id),
+            ("grant_type", "refresh_token"),
+            ("refresh_token", refresh_token),
+            ("scope", "XboxLive.signin offline_access"),
+        ])
+        .send()
+        .map_err(|_| AuthorizationError::TokenExchangeFailed)?;
+    let status = response.status();
+    let mut body = Vec::new();
+    response
+        .by_ref()
+        .take(65537)
+        .read_to_end(&mut body)
+        .map_err(|_| AuthorizationError::TokenExchangeFailed)?;
+    if body.len() > 65536 {
+        return Err(AuthorizationError::TokenExchangeFailed);
+    }
+    if !status.is_success() {
+        return Err(classify_refresh_error(&body));
+    }
+    parse_microsoft_tokens(&body)
+}
+
+fn classify_refresh_error(body: &[u8]) -> AuthorizationError {
+    match serde_json::from_slice::<serde_json::Value>(body)
+        .ok()
+        .and_then(|v| v.get("error").and_then(|e| e.as_str()).map(str::to_owned))
+        .as_deref()
+    {
+        Some("invalid_grant") => AuthorizationError::ReauthenticationRequired,
+        _ => AuthorizationError::TokenExchangeFailed,
+    }
 }
 
 /// A loopback listener owns a single attempt and never exposes its credentials
@@ -128,7 +178,9 @@ impl LoopbackAuthorization {
                         "HTTP/1.1 {status}\r\nContent-Type: text/plain; charset=utf-8\r\nCache-Control: no-store\r\nConnection: close\r\nContent-Length: {}\r\n\r\n{body}",
                         body.len()
                     );
-                    if result.is_ok() {
+                    if result.is_ok()
+                        || matches!(&result, Err(AuthorizationError::ProviderRejected))
+                    {
                         return result;
                     }
                 }
@@ -240,6 +292,7 @@ impl AuthorizationAttempt {
             .append_pair("response_type", "code")
             .append_pair("redirect_uri", callback.as_str())
             .append_pair("response_mode", "query")
+            .append_pair("prompt", "select_account")
             .append_pair("scope", "XboxLive.signin offline_access")
             .append_pair("state", &state)
             .append_pair("code_challenge", &challenge)
@@ -278,18 +331,17 @@ impl AuthorizationAttempt {
         }
         let mut state = None;
         let mut code = None;
+        let mut provider_error = None;
         for (key, value) in response.query_pairs() {
             match key.as_ref() {
                 "state" if state.is_none() => state = Some(value.into_owned()),
                 "code" if code.is_none() => code = Some(value.into_owned()),
+                "error" if provider_error.is_none() => provider_error = Some(value.into_owned()),
                 "state" | "code" | "error" => return Err(AuthorizationError::InvalidCallback),
                 _ => (),
             }
         }
         let state = state.ok_or(AuthorizationError::InvalidCallback)?;
-        let code = code
-            .filter(|s| !s.is_empty())
-            .ok_or(AuthorizationError::InvalidCallback)?;
         if state.len() != self.state.len()
             || !state
                 .bytes()
@@ -299,6 +351,20 @@ impl AuthorizationAttempt {
         {
             return Err(AuthorizationError::InvalidCallback);
         }
+        if provider_error
+            .as_deref()
+            .is_some_and(|value| !value.is_empty())
+            && code.is_none()
+        {
+            self.used = true;
+            return Err(AuthorizationError::ProviderRejected);
+        }
+        if provider_error.is_some() {
+            return Err(AuthorizationError::InvalidCallback);
+        }
+        let code = code
+            .filter(|s| !s.is_empty())
+            .ok_or(AuthorizationError::InvalidCallback)?;
         self.used = true;
         Ok(code)
     }
@@ -330,10 +396,53 @@ mod tests {
     }
 
     #[test]
+    fn refresh_error_only_exposes_a_safe_category() {
+        assert_eq!(
+            classify_refresh_error(
+                br#"{"error":"invalid_grant","error_description":"sensitive fixture"}"#
+            ),
+            AuthorizationError::ReauthenticationRequired
+        );
+        assert_eq!(
+            classify_refresh_error(br#"{"error":"temporarily_unavailable"}"#),
+            AuthorizationError::TokenExchangeFailed
+        );
+        assert_eq!(
+            classify_refresh_error(b"not-json"),
+            AuthorizationError::TokenExchangeFailed
+        );
+    }
+
+    #[test]
+    fn provider_denial_is_correlated_and_consumes_attempt() {
+        let (mut attempt, url) = AuthorizationAttempt::new(CLIENT, 45678).unwrap();
+        let state = url
+            .query_pairs()
+            .find(|(key, _)| key == "state")
+            .unwrap()
+            .1
+            .into_owned();
+        let mut response = attempt.redirect_uri().clone();
+        response
+            .query_pairs_mut()
+            .append_pair("state", &state)
+            .append_pair("error", "access_denied");
+        assert_eq!(
+            attempt.accept(&response, Instant::now()),
+            Err(AuthorizationError::ProviderRejected)
+        );
+        assert_eq!(
+            attempt.accept(&response, Instant::now()),
+            Err(AuthorizationError::AlreadyUsed)
+        );
+    }
+
+    #[test]
     fn builds_pkce_and_consumes_correlated_callback_once() {
         let (mut attempt, url) = AuthorizationAttempt::new(CLIENT, 45678).unwrap();
         let pairs: std::collections::HashMap<_, _> = url.query_pairs().into_owned().collect();
         assert_eq!(pairs["code_challenge_method"], "S256");
+        assert_eq!(pairs["prompt"], "select_account");
         assert_eq!(
             pairs["code_challenge"],
             URL_SAFE_NO_PAD.encode(Sha256::digest(attempt.verifier().as_bytes()))

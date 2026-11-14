@@ -7,6 +7,7 @@ edition = "2024"
 tauri-build = { version = "2.7.4", features = [] }
 
 [dependencies]
+fs2 = "0.4"
 nebula-core = { path = "../crates/nebula-core" }
 serde = { version = "1.0.229", features = ["derive"] }
 tauri = { version = "2.12.5", features = [] }

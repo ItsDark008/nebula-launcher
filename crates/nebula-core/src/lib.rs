@@ -1,6 +1,8 @@
 use serde::Serialize;
 
+pub mod accounts;
 pub mod auth;
+pub mod minecraft_auth;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -18,7 +20,7 @@ pub enum Review {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ProtectedAccess {
-    Unverified,
+    Verified,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -35,7 +37,7 @@ pub fn minecraft_access_status() -> MinecraftAccessStatus {
         registration: Registration::Registered,
         review_submission: Review::Submitted,
         review_approval: Review::Approved,
-        protected_access: ProtectedAccess::Unverified,
+        protected_access: ProtectedAccess::Verified,
     }
 }
 
@@ -52,7 +54,7 @@ mod tests {
                 "registration": "registered",
                 "reviewSubmission": "submitted",
                 "reviewApproval": "approved",
-                "protectedAccess": "unverified"
+                "protectedAccess": "verified"
             })
         );
     }

@@ -1,6 +1,6 @@
 # Minecraft Game Service access
 
-The project owner creates and owns the Microsoft Entra registration for Nebula Launcher and submits the Minecraft API review request from their own account. The owner confirmed registration and approval on 2026-11-14; protected access remains unverified until a successful live call. Phase 6 verifies live sign-in and keyring behavior. Phase 7 verifies an authenticated Vanilla install and launch on Linux. [Phase 1 decisions](../.planning/phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-CONTEXT.md) · [Phase 1 research](../.planning/phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-RESEARCH.md) · [Roadmap](../.planning/ROADMAP.md)
+The project owner creates and owns the Microsoft Entra registration for Nebula Launcher and submits the Minecraft API review request from their own account. The owner confirmed registration and approval on 2026-11-14. On the same date the development launcher retrieved an eligible Minecraft profile after the Microsoft, Xbox, Minecraft and entitlement exchanges. Further Phase 6 checks cover refresh, account switching and logout. Phase 7 verifies an authenticated Vanilla install and launch on Linux. [Phase 1 decisions](../.planning/phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-CONTEXT.md) · [Roadmap](../.planning/ROADMAP.md)
 
 ## Registration checklist
 
@@ -38,7 +38,7 @@ The form requires authentication and game ownership checks before enabling gamep
 | Registration | Registered; owner confirmed | Owner confirmed the registration exists. |
 | Review submission | Submitted; owner confirmed | Owner confirmed submission. |
 | Review approval | Approved; owner confirmed | Owner confirmed approval; provider correspondence has not been inspected. |
-| Protected access | Unverified | Dated successful protected Minecraft Game Service call with the approved Nebula-owned client and an eligible account. |
+| Protected access | Verified on 2026-11-14 | Owner supplied a screenshot of the eligible profile shown as active in the development launcher following sign-in. |
 
 Record only dates and outcome categories. Keep account details, registration identifiers, correspondence, credentials, and response data outside repository evidence.
 
