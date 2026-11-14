@@ -1,20 +1,20 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 2
-current_phase_name: Dark Interface and Navigation
+current_phase: 3
+current_phase_name: Persistent Instances
 status: planning
-stopped_at: Phase 2 context gathered
-resume_file: .planning/phases/02-dark-interface-and-navigation/02-CONTEXT.md
-last_updated: "2026-11-14T09:10:08Z"
+stopped_at: "Phase 02 closure evidence committed in PR #9; ready to discuss and plan Phase 3"
+last_updated: "2026-11-14T10:35:42.626Z"
 last_activity: 2026-11-14
-last_activity_desc: Documented the Phase 2 interface and navigation decisions
-state_head: 115833b19fadfdd347c8f33468f7375a47e0642a
+last_activity_desc: Phase 02 complete, transitioned to Phase 3
+state_head: a200c485659286ed9a35b437c46165b0c43d694d
 progress:
   total_phases: 16
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 6
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
+  percent: 13
+resume_file: null
 ---
 
 # Project State
@@ -23,22 +23,23 @@ progress:
 
 **Core value:** A Linux player with an eligible Minecraft account can install and launch Minecraft Java Edition in an isolated instance and keep their settings across restarts. [Project brief](PROJECT.md)
 
-**Current focus:** Define the Phase 2 interface design and prepare its implementation plan. [Phase 2 context](phases/02-dark-interface-and-navigation/02-CONTEXT.md) · [Roadmap](ROADMAP.md)
+**Current focus:** Discuss and plan persistent, isolated instances with safe recovery. [Roadmap](ROADMAP.md)
 
 ## Current Position
 
-Phase: 2 — Dark Interface and Navigation
+Phase: 3 — Persistent Instances
 Plan: Not started
 
-Status: Context gathered, ready for interface design
+Status: Ready to plan
 
-Last activity: 2026-11-14 — Documented the Phase 2 interface and navigation decisions
+Last activity: 2026-11-14 — Phase 02 complete, transitioned to Phase 3
 
-Progress: [█░░░░░░░░░] 6%
+Progress: [█░░░░░░░░░] 13%
 
 ## Performance Metrics
 
 - Phase 1 completed 3 of 3 plans. [Phase 1 verification](phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-VERIFICATION.md)
+- Phase 2 completed 1 of 1 plans. [Phase 2 verification](phases/02-dark-interface-and-navigation/02-VERIFICATION.md)
 
 ## Accumulated Context
 
@@ -52,11 +53,13 @@ Progress: [█░░░░░░░░░] 6%
 
 ### Pending Todos
 
-- Define the Phase 2 interface design from the recorded context, then plan implementation for UI-01 and UI-02.
+- Discuss Phase 3 instance creation, duplication, deletion and recovery, then plan implementation.
+- Recheck native compositor dimensions and the OS reduced-motion preference when suitable; these were not independently measured during Phase 2. [UAT](phases/02-dark-interface-and-navigation/02-UAT.md)
 
 ### Blockers/Concerns
 
-- The Minecraft Game Service review route was located. Registration eligibility, approval, and protected access for a Nebula-owned client remain unverified. Live authentication acceptance in Phase 6 and completion of Phase 7 require that access and an eligible account. Independent work can proceed when its own dependencies are met. [Integration risks](research/PITFALLS.md)
+- The owner confirmed the Nebula AppID was approved. A real sign-in and eligible profile retrieval verified protected access on 2026-11-14; two-account live switching remains untested. [Access status](../docs/minecraft-access.md)
+- `npm audit` reports four moderate and two low transitive advisories in shadcn build tooling; npm offered no compatible upstream fix. [Security review](phases/02-dark-interface-and-navigation/02-SECURITY.md)
 - External publication of a package or release requires explicit owner authorization. [Project brief](PROJECT.md)
 
 ## Deferred Items
@@ -65,7 +68,7 @@ Managed Java provisioning, Windows support, and an optional light theme are cand
 
 ## Session Continuity
 
-Last session: 2026-11-14
-Stopped at: Phase 2 context gathered
+Last session: 2026-11-14T10:35:42.584Z
+Stopped at: Phase 02 closure evidence committed in PR #9; ready to discuss and plan Phase 3
 
-Resume file: .planning/phases/02-dark-interface-and-navigation/02-CONTEXT.md
+Resume file: None

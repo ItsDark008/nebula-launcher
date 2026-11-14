@@ -13,6 +13,8 @@ A Linux player with an eligible Minecraft account can install and launch Minecra
 ### Validated
 
 - Phase 1 verified the CachyOS development window, standalone Rust status core, typed Tauri command and event, and keyboard retry. The owner registration and Minecraft review checklist is available. [Phase 1 verification](phases/01-linux-bootstrap-and-minecraft-access-feasibility/01-VERIFICATION.md)
+- Phase 2 delivered six dark-interface destinations and verified keyboard navigation and status retry. Native window measurements and the OS reduced-motion toggle retain the limits documented in the verification report. [Phase 2 verification](phases/02-dark-interface-and-navigation/02-VERIFICATION.md)
+- The owner completed a real Microsoft sign-in, profile retrieval, refresh and removal on Linux. Two-real-account switching and the rest of Phase 6 verification remain open. [Authentication evidence](../docs/microsoft-auth-verification.md)
 
 ### Active
 
@@ -60,4 +62,4 @@ A Linux player with an eligible Minecraft account can install and launch Minecra
 - At each milestone boundary, review the core value, constraints, verification evidence, and remaining scope.
 
 ---
-*Last updated: 2026-11-12 after roadmap and architecture approval*
+*Last updated: 2026-11-14 after Phase 2 verification*

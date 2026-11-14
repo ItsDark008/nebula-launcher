@@ -11,7 +11,7 @@ Confirm the Minecraft Game Service access path during Phase 1. Authorized access
 ### Milestone A · Vanilla MVP
 
 - [x] **Phase 1: Linux Bootstrap and Minecraft Access Feasibility** - Run the desktop shell and establish the protected API access path. (completed 2026-11-13)
-- [ ] **Phase 2: Dark Interface and Navigation** - Navigate the desktop workspace with a mouse or keyboard.
+- [x] **Phase 2: Dark Interface and Navigation** - Navigate the desktop workspace with a mouse or keyboard. (completed 2026-11-14)
 - [ ] **Phase 3: Persistent Instances** - Create, edit, duplicate, and safely delete isolated instances.
 - [ ] **Phase 4: Minecraft Manifest and Verified Downloads** - Browse official versions and follow verified transfers.
 - [ ] **Phase 5: Vanilla Installation and Local Java** - Install, update, and repair Vanilla with compatible local Java.
@@ -84,7 +84,7 @@ Plans:
 2. A player can reach and operate primary controls by keyboard, identify visible focus, and follow a logical focus order.
 3. Navigation and primary actions remain usable across the supported window sizes. The desktop's reduced-motion preference limits motion.
 
-**Plans**: TBD
+**Plans**: 1/1 complete — [02-01: Navigation and account status](phases/02-dark-interface-and-navigation/02-01-PLAN.md).
 **UI hint**: yes
 
 **Implementation tasks**
@@ -462,7 +462,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Linux Bootstrap and Minecraft Access Feasibility | 3/3 | Complete    | 2026-11-13 |
-| 2. Dark Interface and Navigation | 0/TBD | Not started | - |
+| 2. Dark Interface and Navigation | 1/1 | Complete    | 2026-11-14 |
 | 3. Persistent Instances | 0/TBD | Not started | - |
 | 4. Minecraft Manifest and Verified Downloads | 0/TBD | Not started | - |
 | 5. Vanilla Installation and Local Java | 0/TBD | Not started | - |

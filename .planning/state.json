@@ -1,0 +1,93 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Linux Bootstrap and Minecraft Access Feasibility",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "Dark Interface and Navigation",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Persistent Instances",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Minecraft Manifest and Verified Downloads",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "Vanilla Installation and Local Java",
+      "status": "pending"
+    },
+    {
+      "number": "6",
+      "name": "Microsoft Accounts",
+      "status": "pending"
+    },
+    {
+      "number": "7",
+      "name": "Authenticated Vanilla Launch",
+      "status": "pending"
+    },
+    {
+      "number": "8",
+      "name": "Fabric and Quilt",
+      "status": "pending"
+    },
+    {
+      "number": "9",
+      "name": "NeoForge and Forge",
+      "status": "pending"
+    },
+    {
+      "number": "10",
+      "name": "Modrinth Catalog",
+      "status": "pending"
+    },
+    {
+      "number": "11",
+      "name": "Mod Management",
+      "status": "pending"
+    },
+    {
+      "number": "12",
+      "name": "Modpack Install, Import, and Export",
+      "status": "pending"
+    },
+    {
+      "number": "13",
+      "name": "Resource Packs and Shaders",
+      "status": "pending"
+    },
+    {
+      "number": "14",
+      "name": "Updates, Backup, and Recovery",
+      "status": "pending"
+    },
+    {
+      "number": "15",
+      "name": "Quality and Performance",
+      "status": "pending"
+    },
+    {
+      "number": "16",
+      "name": "Linux Packaging and Release Preparation",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "$gsd-progress --next",
+    "label": "Advance to the next step (plan phase 3)",
+    "reason": "Phase 3 of 16 — needs a plan"
+  },
+  "updated_at": "2026-11-14T10:28:29.712Z"
+}
