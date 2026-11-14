@@ -10,10 +10,10 @@ const client: StatusClient = {
       throw { code: "STATUS_UNAVAILABLE", message: "Synthetic private diagnostic" };
     }
     return {
-      registration: "awaiting_owner_registration",
-      reviewSubmission: "pending",
-      reviewApproval: "pending",
-      protectedAccess: "blocked",
+      registration: "registered",
+      reviewSubmission: "submitted",
+      reviewApproval: "approved",
+      protectedAccess: "unverified",
     };
   },
   async subscribe() {

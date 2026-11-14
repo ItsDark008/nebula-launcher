@@ -3,19 +3,20 @@ use serde::Serialize;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Registration {
-    AwaitingOwnerRegistration,
+    Registered,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Review {
-    Pending,
+    Submitted,
+    Approved,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ProtectedAccess {
-    Blocked,
+    Unverified,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -29,10 +30,10 @@ pub struct MinecraftAccessStatus {
 
 pub fn minecraft_access_status() -> MinecraftAccessStatus {
     MinecraftAccessStatus {
-        registration: Registration::AwaitingOwnerRegistration,
-        review_submission: Review::Pending,
-        review_approval: Review::Pending,
-        protected_access: ProtectedAccess::Blocked,
+        registration: Registration::Registered,
+        review_submission: Review::Submitted,
+        review_approval: Review::Approved,
+        protected_access: ProtectedAccess::Unverified,
     }
 }
 
@@ -46,10 +47,10 @@ mod tests {
         assert_eq!(
             serde_json::to_value(minecraft_access_status()).unwrap(),
             json!({
-                "registration": "awaiting_owner_registration",
-                "reviewSubmission": "pending",
-                "reviewApproval": "pending",
-                "protectedAccess": "blocked"
+                "registration": "registered",
+                "reviewSubmission": "submitted",
+                "reviewApproval": "approved",
+                "protectedAccess": "unverified"
             })
         );
     }

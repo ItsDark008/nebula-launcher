@@ -2,10 +2,10 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 
 export interface MinecraftAccessStatus {
-  registration: "awaiting_owner_registration";
-  reviewSubmission: "pending";
-  reviewApproval: "pending";
-  protectedAccess: "blocked";
+  registration: "registered";
+  reviewSubmission: "submitted";
+  reviewApproval: "approved";
+  protectedAccess: "unverified";
 }
 
 export interface StatusClient {

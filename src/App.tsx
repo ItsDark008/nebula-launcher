@@ -6,7 +6,7 @@ interface StatusSession {
   refresh(): void;
 }
 
-export default function App({ client = statusClient }: { client?: StatusClient }) {
+function Accounts({ client }: { client: StatusClient }) {
   const [status, setStatus] = useState<MinecraftAccessStatus>();
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
@@ -70,17 +70,62 @@ export default function App({ client = statusClient }: { client?: StatusClient }
   }, [client]);
 
   return (
-    <main>
-      <h1>Minecraft access</h1>
-      {status?.protectedAccess === "blocked" && <p>Protected access is blocked.</p>}
-      {status?.registration === "awaiting_owner_registration" && (
-        <p>Waiting for the project owner to register Nebula Launcher.</p>
-      )}
+    <section aria-labelledby="accounts-heading">
+      <h2 id="accounts-heading">Minecraft access</h2>
+      {status?.reviewApproval === "approved" && <p>Minecraft AppID review approved.</p>}
+      {status?.protectedAccess === "unverified" && <p>Protected access has not been verified yet.</p>}
       {loading && <p role="status">Refreshing launcher status…</p>}
       {failed && <p role="alert">Unable to refresh launcher status.</p>}
       <button type="button" aria-disabled={loading} onClick={() => session.current?.refresh()}>
         {failed ? "Retry" : "Refresh status"}
       </button>
-    </main>
+    </section>
+  );
+}
+
+const destinations = ["Dashboard", "Instances", "Downloads", "Accounts", "Settings", "Diagnostics"] as const;
+type Destination = typeof destinations[number];
+
+const emptyContent: Record<Exclude<Destination, "Accounts">, string> = {
+  Dashboard: "Your launcher workspace is ready. Explore the sections to get started.",
+  Instances: "No instances yet. Instance management will be available in a later update.",
+  Downloads: "No downloads yet. Downloads will appear here when available.",
+  Settings: "Settings will be available in a later update.",
+  Diagnostics: "Diagnostics will be available in a later update.",
+};
+
+export default function App({ client = statusClient }: { client?: StatusClient }) {
+  const [destination, setDestination] = useState<Destination>("Dashboard");
+
+  return (
+    <div className="workspace">
+      <aside className="sidebar">
+        <div className="brand"><span aria-hidden="true">✦</span> Nebula</div>
+        <nav aria-label="Main navigation">
+          {destinations.map((name) => (
+            <button
+              key={name}
+              type="button"
+              className="nav-item"
+              aria-current={destination === name ? "page" : undefined}
+              onClick={() => setDestination(name)}
+            >
+              {name}
+            </button>
+          ))}
+        </nav>
+      </aside>
+      <main className="workspace-main" tabIndex={-1}>
+        <div className="eyebrow">NEBULA LAUNCHER</div>
+        <h1>{destination}</h1>
+        <div className="content-panel">
+          {destination === "Accounts" ? (
+            <Accounts client={client} />
+          ) : (
+            <p>{emptyContent[destination]}</p>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
